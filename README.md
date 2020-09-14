@@ -24,3 +24,9 @@ It will be an advantage for candidates to demonstrate the following:
     
 [1]: pom.xml
 [2]: https://en.wikipedia.org/wiki/SOLID
+
+
+## How to use
+ - Data is preloaded in resources folder
+ - Then the program is using JWT for /authenticate
+ - User will need to pass in JWT in bearer form as part of Authorization header, in subsequent call
