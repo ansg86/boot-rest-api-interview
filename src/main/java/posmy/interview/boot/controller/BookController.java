@@ -31,7 +31,7 @@ public class BookController extends BaseController {
 	public ResponseEntity<Books> getBook(@PathVariable("id") Long bookId, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		Books book = bookService.readBook(bookId);
 		return ResponseEntity.ok(book);
 	}
@@ -40,7 +40,7 @@ public class BookController extends BaseController {
 	public ResponseEntity<?> returnBook(@PathVariable("id") Long bookId, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		bookService.returnBook(bookId);
 		return ResponseEntity.ok().build();
 	}
@@ -49,9 +49,9 @@ public class BookController extends BaseController {
 	public ResponseEntity<?> addBook(@RequestBody Books book, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		// only librarian can do this
-		if (ROLE_LABEL.MEMBER.name().equals(authUserObject.getRole())) {
+		if (!ROLE_LABEL.LIBRARIAN.name().equals(authUserObject.getRole())) {
 			throw new UnauthorizedException("you are not allowed to perform this action");
 		}
 
@@ -63,9 +63,9 @@ public class BookController extends BaseController {
 	public ResponseEntity<?> updateBook(@RequestBody Books book, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		// only librarian can do this
-		if (ROLE_LABEL.MEMBER.name().equals(authUserObject.getRole())) {
+		if (!ROLE_LABEL.LIBRARIAN.name().equals(authUserObject.getRole())) {
 			throw new UnauthorizedException("you are not allowed to perform this action");
 		}
 
@@ -77,9 +77,9 @@ public class BookController extends BaseController {
 	public ResponseEntity<?> delete(@PathVariable("id") Long bookId, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		// only librarian can do this
-		if (ROLE_LABEL.MEMBER.name().equals(authUserObject.getRole())) {
+		if (!ROLE_LABEL.LIBRARIAN.name().equals(authUserObject.getRole())) {
 			throw new UnauthorizedException("you are not allowed to perform this action");
 		}
 

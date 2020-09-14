@@ -31,7 +31,7 @@ public class UserController extends BaseController {
 	public ResponseEntity<Users> getUser(@PathVariable("userId") String userId,
 			@RequestHeader("Authorization") String token) throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		// only can get own user for MEMBERS, LIBRARIAN can get all user
 		if (ROLE_LABEL.MEMBER.name().equals(authUserObject.getRole())) {
 			if (!userId.equals(authUserObject.getUserId())) {
@@ -46,7 +46,7 @@ public class UserController extends BaseController {
 	public ResponseEntity<?> addUser(@RequestBody Users user, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		// only librarian can do this
 		if (!ROLE_LABEL.LIBRARIAN.name().equals(authUserObject.getRole())) {
 			throw new UnauthorizedException("you are not allowed to perform this action");
@@ -59,7 +59,7 @@ public class UserController extends BaseController {
 	public ResponseEntity<?> updateUser(@RequestBody Users user, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		// only librarian can do this
 		if (!ROLE_LABEL.LIBRARIAN.name().equals(authUserObject.getRole())) {
 			throw new UnauthorizedException("you are not allowed to perform this action");
@@ -72,7 +72,7 @@ public class UserController extends BaseController {
 	public ResponseEntity<?> delete(@PathVariable("userId") String userId, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);
-		validateIsNonMember(authUserObject);
+		ensureUserWithRole(authUserObject);
 		// only librarian can delete any user, member can delete itself only
 		if (ROLE_LABEL.MEMBER.name().equals(authUserObject.getRole())) {
 			if (!userId.equals(authUserObject.getUserId())) {
