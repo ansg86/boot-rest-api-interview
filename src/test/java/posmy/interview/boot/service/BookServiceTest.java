@@ -1,7 +1,5 @@
 package posmy.interview.boot.service;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -10,37 +8,24 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 
 import posmy.interview.boot.enumeration.BOOK_STATUS;
 import posmy.interview.boot.exception.BookIncorrectStatusException;
 import posmy.interview.boot.exception.BookNotFoundException;
-import posmy.interview.boot.exception.UserNotFoundException;
 import posmy.interview.boot.model.Books;
 import posmy.interview.boot.repository.BookRepository;
 
 @SpringBootTest
 public class BookServiceTest {
 
-	@TestConfiguration
-    static class BookServiceImplContextConfiguration {
- 
-        @Bean
-        public BookService bookService() {
-            return new BookServiceImpl();
-        }
-    }
- 
-    @Autowired
-    private BookService bookService;
- 
-    @MockBean
+	@Mock
     private BookRepository bookRepository;
- 
+	
+	@InjectMocks
+    private BookServiceImpl bookService;
     
     @Test
     public void givenBookExists_whenDeleteBook_thenDeleteOk() throws BookNotFoundException, BookIncorrectStatusException {

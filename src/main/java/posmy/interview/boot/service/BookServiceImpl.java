@@ -12,8 +12,12 @@ import posmy.interview.boot.repository.BookRepository;
 @Service
 public class BookServiceImpl implements BookService {
 
+	private final BookRepository booksRepository;
+	
 	@Autowired
-	private BookRepository booksRepository;
+	public BookServiceImpl(BookRepository booksRepository) {
+		this.booksRepository = booksRepository;
+	}
 
 	@Override
 	public void addOrUpdateBook(Books book) {

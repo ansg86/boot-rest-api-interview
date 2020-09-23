@@ -3,7 +3,7 @@ package posmy.interview.boot.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
@@ -208,7 +208,7 @@ public class UserControllerTest {
 		ResponseEntity<Users> userResponse = restTemplate.exchange("/users/get/member", HttpMethod.GET,
 				new HttpEntity<>(headers), Users.class);
 
-		assertThat(userResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(NOT_FOUND);
+		assertThat(userResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(NO_CONTENT);
 	}
 
 	@Test
@@ -235,7 +235,7 @@ public class UserControllerTest {
 		ResponseEntity<Users> userResponse = restTemplate.exchange("/users/get/member", HttpMethod.GET,
 				new HttpEntity<>(headers), Users.class);
 
-		assertThat(userResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(NOT_FOUND);
+		assertThat(userResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(NO_CONTENT);
 	}
 
 	private HttpHeaders updateHeaderWithToken(String token) {

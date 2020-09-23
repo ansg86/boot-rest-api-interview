@@ -21,11 +21,15 @@ import posmy.interview.boot.service.BookService;
 @RequestMapping("/books")
 public class BookController extends BaseController {
 
-	@Autowired
-	private BookService bookService;
+	private final BookService bookService;
 
+	private final JwtUtil jwtUtil;
+	
 	@Autowired
-	private JwtUtil jwtUtil;
+	public BookController(BookService bookService, JwtUtil jwtUtil) {
+		this.bookService = bookService;
+		this.jwtUtil = jwtUtil;
+	}
 
 	@GetMapping(value = "/get/{id}")
 	public ResponseEntity<Books> getBook(@PathVariable("id") Long bookId, @RequestHeader("Authorization") String token)
@@ -36,7 +40,7 @@ public class BookController extends BaseController {
 		return ResponseEntity.ok(book);
 	}
 
-	@GetMapping(value = "/return/{id}")
+	@PostMapping(value = "/return/{id}")
 	public ResponseEntity<?> returnBook(@PathVariable("id") Long bookId, @RequestHeader("Authorization") String token)
 			throws Exception {
 		AuthUserObject authUserObject = generateAuthUserObject(token);

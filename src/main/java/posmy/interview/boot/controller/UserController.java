@@ -21,11 +21,15 @@ import posmy.interview.boot.service.UserService;
 @RequestMapping("/users")
 public class UserController extends BaseController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
+	private final JwtUtil jwtUtil;
+	
 	@Autowired
-	private JwtUtil jwtUtil;
+	public UserController(UserService userService, JwtUtil jwtUtil) {
+		this.userService = userService;
+		this.jwtUtil = jwtUtil;
+	}
 
 	@GetMapping(value = "/get/{userId}")
 	public ResponseEntity<Users> getUser(@PathVariable("userId") String userId,

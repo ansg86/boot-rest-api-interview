@@ -15,19 +15,19 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 	protected ResponseEntity<Object> handleBookIncorrectStatus(BookIncorrectStatusException ex, WebRequest request) {
 		return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
-	
+
 	@ExceptionHandler(value = { BookNotFoundException.class, BookNotFoundException.class })
 	protected ResponseEntity<Object> handleBookNotFound(BookNotFoundException ex, WebRequest request) {
-		return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+		return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NO_CONTENT, request);
 	}
-	
+
 	@ExceptionHandler(value = { UnauthorizedException.class, UnauthorizedException.class })
 	protected ResponseEntity<Object> handleUnauthorized(UnauthorizedException ex, WebRequest request) {
 		return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
 	}
-	
+
 	@ExceptionHandler(value = { UserNotFoundException.class, UserNotFoundException.class })
 	protected ResponseEntity<Object> handleUserNotFound(UserNotFoundException ex, WebRequest request) {
-		return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+		return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NO_CONTENT, request);
 	}
 }

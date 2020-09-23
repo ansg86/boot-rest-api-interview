@@ -3,7 +3,7 @@ package posmy.interview.boot.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
@@ -44,7 +44,7 @@ public class BookControllerTest {
 		assertThat(bookResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(UNAUTHORIZED);
 
 		// return
-		bookResponse = restTemplate.exchange("/books/return/1", HttpMethod.GET, new HttpEntity<>(headers), Books.class);
+		bookResponse = restTemplate.exchange("/books/return/1", HttpMethod.POST, new HttpEntity<>(headers), Books.class);
 
 		assertThat(bookResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(UNAUTHORIZED);
 
@@ -79,7 +79,7 @@ public class BookControllerTest {
 		assertEquals("story-one", book.getName());
 		assertEquals(1L, book.getId());
 
-		bookResponse = restTemplate.exchange("/books/return/1", HttpMethod.GET, new HttpEntity<>(headers), Books.class);
+		bookResponse = restTemplate.exchange("/books/return/1", HttpMethod.POST, new HttpEntity<>(headers), Books.class);
 
 		assertThat(bookResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(OK);
 	}
@@ -98,7 +98,7 @@ public class BookControllerTest {
 		assertEquals("story-one", book.getName());
 		assertEquals(1L, book.getId());
 
-		bookResponse = restTemplate.exchange("/books/return/1", HttpMethod.GET, new HttpEntity<>(headers), Books.class);
+		bookResponse = restTemplate.exchange("/books/return/1", HttpMethod.POST, new HttpEntity<>(headers), Books.class);
 
 		assertThat(bookResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(OK);
 	}
@@ -174,7 +174,7 @@ public class BookControllerTest {
 		bookResponse = restTemplate.exchange("/books/update", HttpMethod.POST, requestEntity, Books.class);
 		assertThat(bookResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(OK);
 
-		bookResponse = restTemplate.exchange("/books/return/1", HttpMethod.GET, new HttpEntity<>(headers), Books.class);
+		bookResponse = restTemplate.exchange("/books/return/1", HttpMethod.POST, new HttpEntity<>(headers), Books.class);
 
 		assertThat(bookResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(OK);
 
@@ -208,7 +208,7 @@ public class BookControllerTest {
 
 		bookResponse = restTemplate.exchange("/books/get/1", HttpMethod.GET, new HttpEntity<>(headers), Books.class);
 
-		assertThat(bookResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(NOT_FOUND);
+		assertThat(bookResponse).extracting(ResponseEntity::getStatusCode).isEqualTo(NO_CONTENT);
 	}
 
 	private HttpHeaders updateHeaderWithToken(String token) {
